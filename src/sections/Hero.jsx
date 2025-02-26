@@ -1,71 +1,80 @@
-import { useState } from "react";
+"use client"
 
-import { shoes, statistics } from "../constants";
-import { Button, ShoeCard } from "../components";
-import { bigShoe1 } from "../assets/images";
-import { arrowRight } from "../assets/icons";
+import { useState } from "react"
+import { ArrowRight } from "lucide-react"
 
-const Hero = () => {
-  const [bigShoeImg, setBigShoeImg] = useState(bigShoe1);
+export default function Hero() {
+  const [selectedImage, setSelectedImage] = useState(0)
+  const images = ["./j1.jpg", "./j2.jpg", "./j3.jpg"]
 
   return (
-    <section
-      id='home'
-      className='w-full flex xl:flex-row flex-col justify-center min-h-screen gap-10 max-container'
-    >
-      <div className='relative xl:w-2/5 flex flex-col justify-center items-start w-full  max-xl:padding-x pt-28'>
-     
-
-        <h1 className='mt-10 font-palanquin text-8xl max-sm:text-[72px] max-sm:leading-[82px] font-bold'>
-          <span className='xl:bg-white xl:whitespace-nowrap relative z-10 pr-10'>
- High Quality
-          </span>
-          <br />
-          <span className='text-coral-red inline-block mt-3'>Leather</span> Products
-        </h1>
-        <p className='font-montserrat text-slate-gray text-lg leading-8 mt-6 mb-14 sm:max-w-sm'>
-          Discover stylish Nike arrivals, quality comfort, and innovation for
-          your active life.
-        </p>
-
-        <Button label='Shop now' iconURL={arrowRight} />
-
-        <div className='flex justify-start items-start flex-wrap w-full mt-20 gap-16'>
-          {statistics.map((stat, index) => (
-            <div key={index}>
-              <p className='text-4xl font-palanquin font-bold'>{stat.value}</p>
-              <p className='leading-7 font-montserrat text-slate-gray'>
-                {stat.label}
+    <div className="bg-white mt-4">
+      <section className="container mx-auto px-4 py-12 md:py-20">
+        <div className="grid items-center gap-8 lg:grid-cols-2">
+          {/* Left Content */}
+          <div className="space-y-8">
+            <div className="space-y-4">
+              <h1 className="text-4xl font-bold tracking-tight text-[#001731] sm:text-5xl xl:text-6xl">
+                High Quality
+                <span className="block text-[#004493]">Leather</span>
+                Products
+              </h1>
+              <p className="max-w-[600px] text-lg text-[#002E62]/80">
+                Discover High quality leather products that are made to last. Shop our collection of shoes, bags, and
+                accessories.
               </p>
             </div>
-          ))}
-        </div>
-      </div>
+            <button className="inline-flex items-center gap-2 rounded-full bg-[#002E62] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#001731] focus:outline-none focus:ring-2 focus:ring-[#002E62] focus:ring-offset-2">
+              Shop now
+              <ArrowRight className="h-4 w-4" />
+            </button>
+            <div className="grid grid-cols-3 gap-8 pt-8">
+              <div>
+                <p className="text-3xl font-bold text-[#001731]">1k+</p>
+                <p className="text-sm text-[#002E62]/70">Brands</p>
+              </div>
+              <div>
+                <p className="text-3xl font-bold text-[#001731]">500+</p>
+                <p className="text-sm text-[#002E62]/70">Shops</p>
+              </div>
+              <div>
+                <p className="text-3xl font-bold text-[#001731]">250k+</p>
+                <p className="text-sm text-[#002E62]/70">Customers</p>
+              </div>
+            </div>
+          </div>
 
-      <div className='relative flex-1 flex justify-center items-center xl:min-h-screen max-xl:py-40 bg-primary bg-hero bg-cover bg-center'>
-        <img
-          src={bigShoeImg}
-          alt='shoe colletion'
-          width={610}
-          height={502}
-          className='object-contain relative z-10'
-        />
-
-        <div className='flex sm:gap-6 gap-4 absolute -bottom-[5%] sm:left-[10%] max-sm:px-6'>
-          {shoes.map((image, index) => (
-            <div key={index}>
-              <ShoeCard
-                index={index}
-                imgURL={image}
-                changeBigShoeImage={(shoe) => setBigShoeImg(shoe)}
-                bigShoeImg={bigShoeImg}
+          {/* Right Content */}
+          <div className="relative mt-6">
+            <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-gray-50 p-8 shadow-sm">
+              <img
+                src={images[selectedImage] || "/placeholder.svg"}
+                alt="Featured product"
+                className="object-contain w-full h-full"
               />
             </div>
-          ))}
+            <div className="mt-4 flex gap-4">
+              {images.map((image, index) => (
+                <button
+                  key={index}
+                  onClick={() => setSelectedImage(index)}
+                  className={`relative aspect-square w-24 overflow-hidden rounded-lg border-2 transition-all ${
+                    selectedImage === index
+                      ? "border-[#004493] shadow-md"
+                      : "border-transparent hover:border-[#002E62]/20"
+                  }`}
+                >
+                  <img
+                    src={image || "/placeholder.svg"}
+                    alt={`Product ${index + 1}`}
+                    className="object-contain w-full h-full p-2"
+                  />
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
-      </div>
-    </section>
-  );
-};
-
-export default Hero;
+      </section>
+    </div>
+  )
+}
